@@ -141,6 +141,13 @@
             background-color: lightblue;
         }
         
+        section {
+            width: 100%;
+            height: 300px;
+            background-color: white;
+            margin-top: 10px;
+        }
+        
         .banner-container {
             position: absolute;
             display: flex;
@@ -158,12 +165,86 @@
             gap: 10px;
         }
         
+        .banner-right .BannerRightHome-PC2 {
+            margin-top: 0px;
+        }
+        
         .banner-container img {
             width: 100%;
             height: auto;
+            margin-top: 60px;
             display: block;
         }
     </style>
+    <script>
+        $(document).ready(function() {
+            var i = 2;
+
+            $("#btnDK").click(function() {
+                $("#myModal").modal();
+            });
+
+            $(".btn-success").click(function() {
+                var hoTen = $("#txtHoTen").val().trim();
+                var cmnd = $("#txtCMND").val().trim();
+                var queQuan = $("#txtQueQuan").val().trim();
+                var email = $("#txtEmail").val().trim();
+                var dienThoai = $("#txtDienThoai").val().trim();
+                var anh = $("#txtAnh").val().split("\\").pop();
+
+                var regexHoTen = /^[A-ZÀ-Ỹ][a-zà-ỹ]*(\s[A-ZÀ-Ỹ][a-zà-ỹ]*)+$/;
+                var regexCMND = /^\d{9}$/;
+                var regexQueQuan = /^[A-ZÀ-Ỹ][a-zà-ỹ]*(\s[A-ZÀ-Ỹ][a-zà-ỹ]*)*$/;
+                var regexEmail = /^[a-zA-Z0-9._%+-]+@iuh\.edu\.vn$/;
+                var regexSDT = /^0\d{2}-\d{3}-\d{4}$/;
+
+                if (!regexHoTen.test(hoTen)) {
+                    alert("Họ tên không hợp lệ.");
+                    return;
+                }
+
+                if (!regexCMND.test(cmnd)) {
+                    alert("CMND phải đúng 9 chữ số.");
+                    return;
+                }
+
+                if (!regexQueQuan.test(queQuan)) {
+                    alert("Quê quán chỉ dùng chữ, chữ cái đầu viết hoa.");
+                    return;
+                }
+
+                if (!regexEmail.test(email)) {
+                    alert("Email phải theo mẫu xxxxxx@iuh.edu.vn");
+                    return;
+                }
+
+                if (!regexSDT.test(dienThoai)) {
+                    alert("SĐT phải theo mẫu 0xx-xxx-xxxx");
+                    return;
+                }
+
+                if (!anh) {
+                    alert("Bạn chưa chọn ảnh đại diện.");
+                    return;
+                }
+
+                $("#tbDanhSach").append(
+                    `<tr>
+            <td>${i++}</td>
+            <td>${hoTen}</td>
+            <td>${cmnd}</td>
+            <td>${queQuan}</td>
+            <td>${email}</td>
+            <td>${dienThoai}</td>
+            <td>${anh}</td>
+          </tr>`
+                );
+
+                $("#myModal input").val("");
+                $("#myModal").modal("hide");
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -189,6 +270,12 @@
                             <a href="gio-hang"><i class="icontgdd-cart"></i> Giỏ hàng <em>0</em></a>
                         </p>
                     </div>
+                </div>
+                <div class="row">
+                    <ul class="nav nav-navbar nav-expand">
+                        <li class="nav-item"><a href="#" class="nav-link">Đăng nhập</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#myModal" id="btnDK">Đăng ký</a></li>
+                    </ul>
                 </div>
             </div>
         </header>
@@ -246,17 +333,80 @@
                 </ul>
             </div>
         </nav>
-        <div class="banner-container">
-            <div class="banner-left">
-                <img src="https://phukiengiaxuong.com.vn/cdn/upload/files/slide/kinh-nghiem-mo-cua-hang-tu-a-z.webp" width="796" height="235" alt="Chi tiet mo cua hang">
+        <section>
+            <div class="banner-container">
+                <div class="banner-left">
+                    <img src="https://phukiengiaxuong.com.vn/cdn/upload/files/slide/kinh-nghiem-mo-cua-hang-tu-a-z.webp" width="50%" height="235" alt="Chi tiet mo cua hang">
+                </div>
+                <div class="banner-right">
+                    <img src="https://phukiengiaxuong.com.vn/cdn/upload/files/slide/hang-thanh-ly.webp" width="50%" height="115" alt="BannerRightHome-PC1">
+                    <img src="https://phukiengiaxuong.com.vn/cdn/upload/files/slide/gia-nhap-nhom-si-zalo.webp" width="50%" height="115" alt="BannerRightHome-PC2" class="BannerRightHome-PC2">
+                </div>
             </div>
-            <div class="banner-right">
-                <img src="https://phukiengiaxuong.com.vn/cdn/upload/files/slide/hang-thanh-ly.webp" width="398" height="115" alt="BannerRightHome-PC1">
-                <img src="https://phukiengiaxuong.com.vn/cdn/upload/files/slide/gia-nhap-nhom-si-zalo.webp" width="398" height="115" alt="BannerRightHome-PC2">
+        </section>
+        <footer></footer>
+        <div class="row">
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">THÔNG TIN CÁ NHÂN</h3>
+                            <button type="button" class="btn ms-auto" data-bs-dismiss="modal" style="font-size: 20px; border: none; background: none;">X</button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Họ tên</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtHoTen" placeholder="Nhập họ tên">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">SCMND cũ</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtCMND" placeholder="Nhập SCMND cũ">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Quê quán</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtQueQuan" placeholder="Nhập tỉnh của bạn">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Email</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" id="txtEmail" placeholder="Nhập Email của bạn">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Số điện thoại</label>
+                                    <div class="col-sm-9">
+                                        <input type="tel" class="form-control" id="txtDienThoai" placeholder="xxxx-xxx-xxx">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Ảnh đại diện</label>
+                                    <div class="col-sm-9">
+                                        <input type="file" class="form-control" id="txtAnh">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success w-100">Lưu</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <section></section>
-        <footer></footer>
     </div>
 
 </body>
