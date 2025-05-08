@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chess</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        
+        #chessboard {
+            display: grid;
+            grid-template-columns: repeat(8, 80px);
+            grid-template-rows: repeat(8, 80px);
+            border: 2px solid #333;
+        }
+        
+        .square {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .dark {
+            background-color: #769656;
+        }
+        
+        .light {
+            background-color: #eeeed2;
+        }
+        
+        .piece {
+            font-size: 2.5rem;
+            cursor: grab;
+        }
+        
+        .piece:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chessboard"></div>
+
+    <script>
+        const chessboard = document.getElementById('chessboard');
+
+        const initialBoard = [
+            ["♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜"],
+            ["♟", "♟", "♟", "♟", "♟", "♟", "♟", "♟"],
+            ["", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", ""],
+            ["♙", "♙", "♙", "♙", "♙", "♙", "♙", "♙"],
+            ["♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"]
+        ];
+
+        function createChessboard() {
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    const square = document.createElement('div');
+                    square.classList.add('square');
+                    square.classList.add((row + col) % 2 === 0 ? 'light' : 'dark');
+                    square.dataset.row = row;
+                    square.dataset.col = col;
+
+                    const piece = initialBoard[row][col];
+                    if (piece) {
+                        const pieceElement = document.createElement('div');
+                        pieceElement.classList.add('piece');
+                        pieceElement.textContent = piece;
+                        pieceElement.draggable = true;
+                        square.appendChild(pieceElement);
+                    }
+
+                    chessboard.appendChild(square);
+                }
+            }
+        }
+
+        let draggedPiece = null;
+
+        chessboard.addEventListener('dragstart', (e) => {
+            if (e.target.classList.contains('piece')) {
+                draggedPiece = e.target;
+            }
+        });
+
+        chessboard.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        chessboard.addEventListener('drop', (e) => {
+            const square = e.target.closest('.square');
+            if (square && draggedPiece) {
+                square.innerHTML = '';
+                square.appendChild(draggedPiece);
+                draggedPiece = null;
+            }
+        });
+
+        createChessboard();
+    </script>
+</body>
+
+</html>

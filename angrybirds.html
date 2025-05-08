@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Angry Birds</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        canvas {
+            display: block;
+            background: #87CEEB;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Game variables
+        const gravity = 0.5;
+        let bird = {
+            x: 200,
+            y: canvas.height - 200,
+            radius: 20,
+            vx: 0,
+            vy: 0,
+            isDragging: false
+        };
+        let blocks = [{
+            x: 600,
+            y: canvas.height - 60,
+            width: 80,
+            height: 60
+        }, {
+            x: 700,
+            y: canvas.height - 60,
+            width: 80,
+            height: 60
+        }];
+        let mouse = {
+            x: 0,
+            y: 0
+        };
+
+        // Utility functions
+        function drawCircle(x, y, radius, color) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawRect(x, y, width, height, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, width, height);
+        }
+
+        // Handle mouse events
+        canvas.addEventListener('mousedown', (e) => {
+            if (Math.hypot(e.clientX - bird.x, e.clientY - bird.y) < bird.radius) {
+                bird.isDragging = true;
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (bird.isDragging) {
+                bird.x = e.clientX;
+                bird.y = e.clientY;
+            }
+        });
+
+        canvas.addEventListener('mouseup', (e) => {
+            if (bird.isDragging) {
+                bird.vx = (bird.x - e.clientX) * -0.1;
+                bird.vy = (bird.y - e.clientY) * -0.1;
+                bird.isDragging = false;
+            }
+        });
+
+        // Game loop
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw bird
+            drawCircle(bird.x, bird.y, bird.radius, 'red');
+
+            if (!bird.isDragging) {
+                bird.vy += gravity;
+                bird.x += bird.vx;
+                bird.y += bird.vy;
+
+                // Bounce off the ground
+                if (bird.y + bird.radius > canvas.height) {
+                    bird.y = canvas.height - bird.radius;
+                    bird.vy *= -0.6;
+                }
+
+                // Bounce off walls
+                if (bird.x - bird.radius < 0 || bird.x + bird.radius > canvas.width) {
+                    bird.vx *= -0.6;
+                }
+            }
+
+            // Draw blocks
+            blocks.forEach(block => {
+                drawRect(block.x, block.y, block.width, block.height, 'brown');
+            });
+
+            // Collision detection
+            blocks = blocks.filter(block => {
+                const distX = Math.abs(bird.x - (block.x + block.width / 2));
+                const distY = Math.abs(bird.y - (block.y + block.height / 2));
+
+                if (distX < block.width / 2 + bird.radius && distY < block.height / 2 + bird.radius) {
+                    return false; // Remove block on collision
+                }
+                return true;
+            });
+
+            requestAnimationFrame(update);
+        }
+
+        update();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Sinh Viên</title>
+    <style>
+        #nhan {
+            height: 40px;
+            width: 150px;
+            float: left;
+        }
+        
+        .inp {
+            height: 40px;
+            width: 100px;
+            float: left;
+        }
+        
+        .clr {
+            clear: both;
+        }
+    </style>
+    <script>
+        function layGiaTriMa() {
+            let elementMa = document.getElementById("txtMa").value;
+            let elementHT = document.getElementById("txtHT").value;
+            let mauMa = /[A-Z]{1}[0-9]{9}$/;
+            if (mauMa.test(elementMa) == true) {
+                alert("Nhap dung ma");
+            } else {
+                alert("Nhap sai ma");
+            }
+        }
+
+        function layGiaTriHT() {
+            let elementHT = document.getElementById("txtHT").value;
+            let mauHT = /([A-Z]{1}[a-z]+)\s([A-Z]{1}[a-z]*)+$/;
+            if (mauHT.test(elementHT) == true) {
+                alert("Nhap dung ho ten");
+            } else {
+                alert("Nhap sai ho ten");
+            }
+        }
+
+        function layGiaTriEmail() {
+            let elementEmail = document.getElementById("txtEmail").value;
+            let mauEmail = /^[a-zA-Z][a-zA-Z0-9_]{0,29}@iuh\.edu\.vn$/;
+            if (mauEmail.test(elementEmail) == true) {
+                alert("Nhap dung Email");
+            } else {
+                alert("Nhap sai Email");
+            }
+        }
+
+        function layGiaTriTuoi() {
+            let elementTuoi = document.getElementById("txtTuoi").value;
+            let mauTuoi = /[A-Z]{1}[0-9]{9}$/
+            if (mauTuoi.test(elementTuoi) == true) {
+                alert("Nhap dung Tuoi");
+            } else {
+                alert("Nhap sai Tuoi");
+            }
+        }
+
+        function layGiaTriNgaydangky() {
+            let elementNgaydangky = document.getElementById("txtNgaydangky").value;
+            let mauNgaydangkyl = /[A-Z]{1}[0-9]{9}$/
+            if (mauNgaydangky.test(elementNgaydangky) == true) {
+                alert("Nhap dung Ngaydangky");
+            } else {
+                alert("Nhap sai Ngaydangky");
+            }
+        }
+
+        function ganGiaTri() {
+            document.getElementById("myDiv").innerHTML = "Noi dung moi!";
+            document.getElementById("myInput").value = "Gia tri moi!";
+            document.getElementsByClassName("clr")
+        }
+    </script>
+</head>
+
+<body>
+    <form action="/submit_form" method="post">
+        <div id="nhan">
+            <label for="ma-sinh-vien">Ma Sinh Vien:</label> <br> <br>
+            <label for="ho-ten-sinh-vien">Ho Ten Sinh Vien:</label> <br> <br>
+            <label for="email-sinh-vien">Email:</label> <br> <br>
+            <label for="Tuoi-sinh-vien">Tuoi:</label> <br> <br>
+            <label for="Ngaydangky-sinh-vien">Ngay dang ky:</label> <br> <br>
+        </div>
+        <div class="inp">
+            <input type="text" id="txtMa" name="ma-sinh-vien" required onblur="layGiaTriMa();"> <br> <br>
+            <input type="text" id="txtHT" name="ho-ten-sinh-vien" required onblur="layGiaTriHT();"> <br> <br>
+            <input type="text" id="txtEmail" name="Email" required onblur="layGiaTriEmail();"> <br> <br>
+            <input type="text" id="txtTuoi" name="Tuoi" required onblur="layGiaTriTuoi();"> <br> <br>
+            <input type="text" id="txtNgaydangky" name="Ngaydangky" required onblur="layGiaTriNgaydangky();"> <br> <br>
+        </div>
+
+
+
+
+        <div class="clr"></div>
+        <br> <br> <br> <br> <br> <br> <br> <br>
+        <div>
+            <button type="submit" onclick="">Submit</button>
+            <button type="button" onclick="window.location.href='/';">Cancel</button>
+        </div>
+    </form>
+</body>
+
+</html>
