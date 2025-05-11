@@ -4,274 +4,542 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>BaiKiemTra</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <script src="../js/jquery-3.7.1.min.js"></script>
-    <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <style>
-        * {
-            padding: 0px;
-            margin: 0px auto;
+        [class*="col-"] {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            var i = 2;
+
+            $("#btnDK").click(function() {
+                $("#myModal").modal();
+            });
+
+            $(".btn-success").click(function() {
+                var hoTen = $("#txtHoTen").val().trim();
+                var cmnd = $("#txtCMND").val().trim();
+                var queQuan = $("#txtQueQuan").val().trim();
+                var email = $("#txtEmail").val().trim();
+                var dienThoai = $("#txtDienThoai").val().trim();
+                var anh = $("#txtAnh").val().split("\\").pop();
+
+                var regexHoTen = /^[A-ZÀ-Ỹ][a-zà-ỹ]*(\s[A-ZÀ-Ỹ][a-zà-ỹ]*)+$/;
+                var regexCMND = /^\d{9}$/;
+                var regexQueQuan = /^[A-ZÀ-Ỹ][a-zà-ỹ]*(\s[A-ZÀ-Ỹ][a-zà-ỹ]*)*$/;
+                var regexEmail = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+                var regexSDT = /^0\d{2}-\d{3}-\d{4}$/;
+
+                if (!regexHoTen.test(hoTen)) {
+                    alert("Họ tên không hợp lệ.");
+                    return;
+                }
+
+                if (!regexCMND.test(cmnd)) {
+                    alert("CMND phải đúng 9 chữ số.");
+                    return;
+                }
+
+                if (!regexQueQuan.test(queQuan)) {
+                    alert("Quê quán chỉ dùng chữ, chữ cái đầu viết hoa.");
+                    return;
+                }
+
+                if (!regexEmail.test(email)) {
+                    alert("Email phải theo mẫu xxxxxx@gmail.com");
+                    return;
+                }
+
+                if (!regexSDT.test(dienThoai)) {
+                    alert("SĐT phải theo mẫu 0xx-xxx-xxxx");
+                    return;
+                }
+
+                if (!anh) {
+                    alert("Bạn chưa chọn ảnh đại diện.");
+                    return;
+                }
+
+                $("#tbDanhSach").append(
+                    `<tr>
+            <td>${i++}</td>
+            <td>${hoTen}</td>
+            <td>${cmnd}</td>
+            <td>${queQuan}</td>
+            <td>${email}</td>
+            <td>${dienThoai}</td>
+            <td>${anh}</td>
+          </tr>`
+                );
+
+                alert("Đăng ký thành công!");
+                $("#myModal").modal("hide");
+            });
+        });
+    </script>
+    <style>
+        .modal {
+            position: fixed;
+            top: 30%;
+            left: 35%;
+            background: white;
+            padding: 20px;
+            border: 1px solid gray;
+            z-index: 999;
         }
         
-        .wrapper {
-            width: 100%;
-            height: 100%;
-            box-sizing: border-box;
-            background-color: white;
-        }
-        
-        body {
-            margin: 0px;
-            padding: 0px;
-        }
-        
-        header {
-            width: 100%;
-            height: 70px;
-            background-color: black;
-            position: relative;
-        }
-        
-        .logo img {
-            position: absolute;
-            left: 150px;
-            top: 10px;
-        }
-        
-        .wrap-main form {
-            position: absolute;
-            left: 400px;
-            top: 20px;
-        }
-        
-        .wrap-main form input {
+        .modal-content {
             width: 300px;
-            height: 35px;
-        }
-        
-        b span {
-            position: absolute;
-            left: 800px;
-            top: 10px;
-            color: white;
-        }
-        
-        g span {
-            position: absolute;
-            left: 1000px;
-            top: 10px;
-            color: white;
-        }
-        
-        span p {
-            top: 30px;
-            color: white;
-            font-size: smaller;
-            font-weight: normal;
-        }
-        
-        .cart_info a {
-            position: relative;
-            width: 150px;
-            height: 50px;
-            left: 500px;
-            top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: black;
-            color: white;
-            border: 2px solid white;
-            padding: 10px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 16px;
-        }
-        
-        .cart_info a em {
-            background-color: yellow;
-            color: black;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-style: normal;
-            margin-left: 10px;
-        }
-        
-        nav {
-            width: 100%;
-            height: 70px;
-            background-color: blue;
-            position: relative;
-            float: left;
-        }
-        
-        .menu li {
-            height: 50px;
-            width: 210px;
-            background-color: blue;
-            display: inline-table;
+            padding: 15px;
+            border: 1px solid #ccc;
+            margin: auto;
             text-align: center;
-            text-indent: 20px;
-            list-style: none;
-            line-height: 50px;
-            float: left;
-            font-weight: bold;
+            background-color: #fff;
+            border-radius: 8px;
         }
         
-        .menu li a {
-            text-decoration: none;
-            color: white;
-        }
-        
-        .submenu {
-            display: none;
-            flex-direction: row;
-            transform: translateX(0%);
-        }
-        
-        .menu li:hover>.submenu {
-            display: block;
-        }
-        
-        .submenu li {
-            width: 210px;
-            line-height: 50px;
-            background-color: lightblue;
-        }
-        
-        section {
-            width: 100%;
-            height: 300px;
-            background-color: white;
-            margin-top: 10px;
-        }
-        
-        .banner-container {
-            position: absolute;
-            display: flex;
-            gap: 10px;
-        }
-        
-        .banner-left {
-            flex: 2;
-        }
-        
-        .banner-right {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .banner-right .BannerRightHome-PC2 {
-            margin-top: 0px;
-        }
-        
-        .banner-container img {
-            width: 100%;
-            height: auto;
-            margin-top: 60px;
-            display: block;
+        .qty-box button {
+            margin: 0 5px;
         }
     </style>
 </head>
 
 <body>
-    <div class="wrapper">
-        <header>
-            <div class="header-middle">
-                <div class="wrap-main">
-                    <a class="logo">
-                        <img width="235px" height="45px" src="https://phukiengiaxuong.com.vn/cdn/upload/files/profile/logo.webp" alt="">
-                    </a>
-                    <form id="search-site" action="https://phukiengiaxuong.com.vn/tim-kiem" method="get" autocomplete="off">
-                        <input class="topinput" id="search-keyword" name="keywords" type="text" tabindex="0" value="" placeholder="Tìm kiếm sản phẩm bạn cần..." autocomplete="off" maxlength="50">
-                        <button class="btntop" aria-label="Tìm Kiếm" type="submit"><i class="icontgdd-topsearch"></i></button>
-                    </form>
-                    <span class="htop-r">
-                        <i class="icontgdd-hotline-white"></i>
-                        <b><span><strong>0394477565</strong><p>Hotline bán hàng</p></span></b>
-                    <i class="icontgdd-ship-white"></i>
-                    <g><span><strong>Giao hàng Toàn Quốc</strong><p>Từ 2 đến 5 ngày</p></span></g>
-                    </span>
-                    <div class="cart" id="cart">
-                        <p class="cart_info">
-                            <a href="gio-hang"><i class="icontgdd-cart"></i> Giỏ hàng <em>0</em></a>
-                        </p>
+    <div class="container border">
+        <div class="row">
+            <div class="col-12">
+                <img src="../img/Screenshot 2025-05-11 132610.png" alt="" width="100%">
+                <img src="" alt="">
+            </div>
+        </div>
+        <div class="row">
+            <nav class="navbar">
+                <ul class="nav nav-navbar nav-expand">
+                    <li class="nav-item"><a href="#" class="nav-link" style="color: blue;">DANH MỤC SẢN PHẨM</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" style="color: blue;">ĐẶT HÀNG SỈ NHANH</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" style="color: blue;">PHỤ KIỆN CHÍNH HÃNG</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" style="color: blue;">CHÍNH SÁCH</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" style="color: blue;">TIN TỨC</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" style="color: blue;">LIÊN HỆ</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" style="color: blue;">Đăng nhập</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#myModal" id="btnDK" style="color: blue;">Đăng ký</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">THÔNG TIN CÁ NHÂN</h3>
+                            <button type="button" class="btn ms-auto" data-bs-dismiss="modal" style="font-size: 20px; border: none; background: none;">X</button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Họ tên</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtHoTen" placeholder="Nhập họ tên">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">SCMND cũ</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtCMND" placeholder="Nhập SCMND cũ">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Quê quán</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="txtQueQuan" placeholder="Nhập tỉnh của bạn">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Email</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" id="txtEmail" placeholder="Nhập Email của bạn">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Số điện thoại</label>
+                                    <div class="col-sm-9">
+                                        <input type="tel" class="form-control" id="txtDienThoai" placeholder="xxxx-xxx-xxx">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Ảnh đại diện</label>
+                                    <div class="col-sm-9">
+                                        <input type="file" class="form-control" id="txtAnh">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success w-100">Lưu</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </header>
-        <nav>
-            <div class="menu">
-                <ul>
-                    <li><a href="">DANH MỤC SẢN PHẨM</a>
-                        <ul class="submenu">
-                            <li><a href="#">Hàng Hot Trend</a></li>
-                            <li><a href="#">Sản Phẩm Mới</a></li>
-                            <li><a href="#">Sỉ Tai Nghe</a></li>
-                            <li><a href="#">Sỉ Dây Sạc, Cáp Sạc</a></li>
-                            <li><a href="#">Sỉ Cáp Dự Phòng</a></li>
-                            <li><a href="#">Sỉ Củ Sạc Nhanh</a></li>
-                            <li><a href="#">Sỉ Bộ Sạc Nhanh</a></li>
-                            <li><a href="#">Hỗ Trợ Quay Chụp</a></li>
-                            <li><a href="#">Sỉ Loa Bluetooth</a></li>
-                            <li><a href="#">Sỉ Kính Cường Lực</a></li>
-                            <li><a href="#">Sỉ Gía Đỡ Điện Thoại</a></li>
-                            <li><a href="#">Tẩu Sạc Ô Tô</a></li>
-                            <li><a href="#">Sỉ Ốp Điện Thoại</a></li>
-                            <li><a href="#">Thẻ Nhớ - USB</a></li>
-                            <li><a href="#">Đồng Hồ Thông Minh</a></li>
-                            <li><a href="#">Chuột, Bàn Phím</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">ĐẶT HÀNG SỈ NHANH</a></li>
-                    <li><a href="">PHỤ KIỆN CHÍNH HÃNG</a>
-                        <ul class="submenu">
-                            <li><a href="#">Hãng Hoco</a></li>
-                            <li><a href="#">Hãng BaseUs</a></li>
-                            <li><a href="#">Hãng BoroFone</a></li>
-                            <li><a href="#">Hãng Wekome</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">CHÍNH SÁCH</a>
-                        <ul class="submenu">
-                            <li><a href="#">Chính sách giao hàng</a></li>
-                            <li><a href="#">Hướng dẫn mua hàng online</a></li>
-                            <li><a href="#">Chính sách bảo hành</a></li>
-                            <li><a href="#">Chính sách bảo mật</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">TIN TỨC</a>
-                        <ul class="submenu">
-                            <li><a href="#">Tin khuyến mãi</a></li>
-                            <li><a href="#">Góc tư vấn</a></li>
-                            <li><a href="#">Kinh nghiệm mở cửa hàng từ A đến Z</a></li>
-                            <li><a href="#">Marketing Online</a></li>
-                            <li><a href="#">Thương mại điện tử</a></li>
-                            <li><a href="#">Mẫu cửa hàng trang trí</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">LIÊN HỆ</a></li>
-                </ul>
-            </div>
-        </nav>
-        <section>
-            <div class="banner-container">
-                <div class="banner-left">
-                    <img src="https://phukiengiaxuong.com.vn/cdn/upload/files/slide/kinh-nghiem-mo-cua-hang-tu-a-z.webp" width="50%" height="235" alt="Chi tiet mo cua hang">
-                </div>
-                <div class="banner-right">
-                    <img src="https://phukiengiaxuong.com.vn/cdn/upload/files/slide/hang-thanh-ly.webp" width="50%" height="115" alt="BannerRightHome-PC1">
-                    <img src="https://phukiengiaxuong.com.vn/cdn/upload/files/slide/gia-nhap-nhom-si-zalo.webp" width="50%" height="115" alt="BannerRightHome-PC2" class="BannerRightHome-PC2">
-                </div>
-            </div>
-        </section>
-        <footer></footer>
+        </div>
     </div>
+    <div class="container py-4">
+        <h4 class="mb-4" style="font-size: small;">Phụ kiện điện thoại giá sỉ số 1 Việt Nam</h4>
+        <div class="row text-center">
+            <div class="col-6 col-sm-4 col-md-2 mb-4">
+                <div>
+                    <i class="fas fa-star fa-2x mb-2"></i>
+                    <img width="55px" height="55px" src="../img/hot-item.svg" alt="Hàng Hot trend">
+                    <p>Hàng Hot trend</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-2 mb-4">
+                <div>
+                    <i class="fas fa-certificate fa-2x mb-2"></i>
+                    <img width="55px" height="55px" src="../img/new.svg" alt="Sản phẩm mới">
+                    <p>Sản phẩm mới</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-2 mb-4">
+                <div>
+                    <i class="fas fa-certificate fa-2x mb-2"></i>
+                    <img width="55px" height="55px" src="../img/return-box.svg" alt="Hàng chợ">
+                    <p>Hàng chợ</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-2 mb-4">
+                <div>
+                    <i class="fas fa-certificate fa-2x mb-2"></i>
+                    <img width="55px" height="55px" src="../img/best.svg" alt="Hàng Độc Quyền">
+                    <p>Hàng Độc Quyền</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-2 mb-4">
+                <div>
+                    <i class="fas fa-certificate fa-2x mb-2"></i>
+                    <img width="55px" height="55px" src="../img/donation.svg" alt="Hàng Tặng Kèm - Mồi">
+                    <p>Hàng Tặng Kèm - Mồi</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-2 mb-4">
+                <div>
+                    <i class="fas fa-certificate fa-2x mb-2"></i>
+                    <img width="55px" height="55px" src="../img/store-2.svg" alt="Hàng Bán Chạy">
+                    <p>Hàng Bán Chạy</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="product-list">
+        <div class="owl-item" style="width: 400px;">
+            <li data-id="6959">
+                <a href="si-gia-do-dien-thoai/gia-do-dien-thoai-o-to-s608" title="Giá Đỡ Điện Thoại Ô Tô S608">
+                    <picture>
+                        <source width="150" height="150" srcset="https://phukiengiaxuong.com.vn/cdn/images/202505/thumb_img/gia-do-dien-thoai-o-to-s608-thumb-G6959-1746779284254.webp" type="image/webp">
+                        <img width="150" height="150" class="photo" src="https://phukiengiaxuong.com.vn/cdn/images/202505/thumb_img/gia-do-dien-thoai-o-to-s608-thumb-G6959-1746779284254.jpg" alt="Giá Đỡ Điện Thoại Ô Tô S608">
+                    </picture>
+                    <span class="icon_hot"></span>
+                    <h3>Giá Đỡ Điện Thoại Ô Tô S608</h3>
+                    <div class="price">
+                        Giá Sỉ
+                        <strong>89.000₫</strong>
+                    </div>
+                    <p class="cprice">Giá CK: 87.000₫</p>
+                    <p class="cprice">Giá Bán Lẻ: 178.000₫</p>
 
+                    <div class="promotion clr"></div>
+                </a>
+                <div class="form_add form_add6959">
+                    <div class="button-container">
+                        <button onclick="qtyMinus(this)" class="qty_button cart-qty-minus" type="button" value="-" fdprocessedid="upn0pi">-</button>
+                        <input type="text" min="1" max="10" class="qty qty6959" step="1" name="goods_number" value="1" fdprocessedid="l3l3hn">
+                        <button onclick="qtyPlus(this)" class="qty_button cart-qty-plus" type="button" value="+" fdprocessedid="vibly">+</button>
+                    </div>
+                    <button class="quick_add" type="button" onclick="quickBuy(6959)">
+                    THÊM
+            </div>
+        </li>
+        <div class="owl-item" style="width: 400px;">
+            <li data-id="6960">
+                <a href="si-gia-do-dien-thoai/gia-do-dien-thoai-o-to-s603" title="Giá Đỡ Điện Thoại Ô Tô S603">
+                    <picture>
+                        <source width="150" height="150" srcset="https://phukiengiaxuong.com.vn/cdn/images/202505/thumb_img/gia-do-dien-thoai-o-to-s603-thumb-G6960-1746779260154.webp" type="image/webp" />
+                        <img width="150" height="150" class="photo" src="https://phukiengiaxuong.com.vn/cdn/images/202505/thumb_img/gia-do-dien-thoai-o-to-s603-thumb-G6960-1746779260154.jpg" alt="Giá Đỡ Điện Thoại Ô Tô S603" />
+                    </picture>
+                    <span class="icon_hot"></span>
+                    <h3>Giá Đỡ Điện Thoại Ô Tô S603</h3>
+                    <div class="price">
+                        Giá Sỉ
+                        <strong>39.000₫</strong>
+                    </div>
+                    <p class="cprice">Giá CK: 38.000₫</p>
+                    <p class="cprice">Giá Bán Lẻ: 78.000₫</p>
+
+                    <div class="promotion clr"></div>
+                </a>
+                <div class="form_add form_add6960">
+                    <div class="button-container">
+                        <button onclick="qtyMinus(this)" class="qty_button cart-qty-minus" type="button" value="-">-</button>
+                    <input type="text" min="1" max="10" class="qty qty6960" step="1" name="goods_number" value="1">
+                    <button onclick="qtyPlus(this)" class="qty_button cart-qty-plus" type="button" value="+">+</button>
+                </div>
+                <button class="quick_add" type="button" onclick="quickBuy(6960)">
+                        THÊM
+                </div>
+            </li>
+            <li data-id="6947">
+                <a href="hot-trend/quat-tich-dien-cam-tay-hoco-hx63" title="Quạt Tích Điện Cầm Tay Hoco HX63">
+                        <picture>
+            <source width="150" height="150" srcset="https://phukiengiaxuong.com.vn/cdn/images/202408/thumb_img/quat-tich-dien-cam-tay-hoco-hx63-thumb-1745290883.webp" type="image/webp" />
+            <img width="150" height="150" class="photo" src="https://phukiengiaxuong.com.vn/cdn/images/202408/thumb_img/quat-tich-dien-cam-tay-hoco-hx63-thumb-1745290883.jpg" alt="Quạt Tích Điện Cầm Tay Hoco HX63"/>
+        </picture>
+                         <span class="icon_hot"></span>                 
+        <h3>Quạt Tích Điện Cầm Tay Hoco HX63</h3>
+        <div class="price">
+            Giá Sỉ
+                                  <strong>128.000₫</strong>
+                            </div>
+ <p class="cprice">Giá CK: 126.000₫</p>  
+            <p class="cprice">Giá Bán Lẻ: 256.000₫</p>
+
+        <div class="promotion clr"><p>2,5-6 giờ, 62 * 54 * 176mm</p></div>
+    </a>
+    <div class="form_add form_add6947">
+            <div class="button-container">
+                <button onclick="qtyMinus(this)" class="qty_button cart-qty-minus" type="button" value="-">-</button>
+                <input type="text" min="1" max="10" class="qty qty6947" step="1" name="goods_number" value="1">
+                <button onclick="qtyPlus(this)" class="qty_button cart-qty-plus" type="button" value="+">+</button>
+        </div>
+        <button class="quick_add" type="button" onclick="quickBuy(6947)">
+        THÊM
+    </li>
+    <li data-id="6954">
+        <a href="hot-trend/quat-tich-dien-cam-tay-hoco-hx62" title="Quạt Tích Điện Cầm Tay Hoco HX62">
+            <picture>
+                <source width="150" height="150" srcset="https://phukiengiaxuong.com.vn/cdn/images/202408/thumb_img/quat-tich-dien-cam-tay-hoco-hx62-thumb-1745292257.webp" type="image/webp" />
+                <img width="150" height="150" class="photo" src="https://phukiengiaxuong.com.vn/cdn/images/202408/thumb_img/quat-tich-dien-cam-tay-hoco-hx62-thumb-1745292257.jpg" alt="Quạt Tích Điện Cầm Tay Hoco HX62" />
+            </picture>
+            <span class="icon_hot"></span>
+            <h3>Quạt Tích Điện Cầm Tay Hoco HX62</h3>
+            <div class="price">
+                Giá Sỉ
+                <strong>151.000₫</strong>
+            </div>
+            <p class="cprice">Giá CK: 148.000₫</p>
+            <p class="cprice">Giá Bán Lẻ: 302.000₫</p>
+
+            <div class="promotion clr">
+                <p>5-17 giờ, 59 * 61,5 * 160,5mm</p>
+            </div>
+        </a>
+        <div class="form_add form_add6954">
+            <div class="button-container">
+                <button onclick="qtyMinus(this)" class="qty_button cart-qty-minus" type="button" value="-">-</button>
+        <input type="text" min="1" max="10" class="qty qty6954" step="1" name="goods_number" value="1">
+        <button onclick="qtyPlus(this)" class="qty_button cart-qty-plus" type="button" value="+">+</button>
+        </div>
+        <button class="quick_add" type="button" onclick="quickBuy(6954)">
+                THÊM
+        </div>
+    </li>
+    <li data-id="6955">
+        <a href="si-day-cap-sac/cap-chuyen-doi-ip-to-35mm-zin" title="Cáp Chuyển Đổi iP to 3.5mm Zin">
+            <picture>
+                <source width="150" height="150" srcset="https://phukiengiaxuong.com.vn/cdn/images/202504/thumb_img/cap-chuyen-doi-ip-to-35mm-zin-thumb-G6955-1745395645874.webp" type="image/webp" />
+                <img width="150" height="150" class="photo" src="https://phukiengiaxuong.com.vn/cdn/images/202504/thumb_img/cap-chuyen-doi-ip-to-35mm-zin-thumb-G6955-1745395645874.jpg" alt="Cáp Chuyển Đổi iP to 3.5mm Zin" />
+            </picture>
+            <span class="icon_hot"></span>
+            <h3>Cáp Chuyển Đổi iP to 3.5mm Zin</h3>
+            <div class="price">
+                Giá Sỉ
+                <strong>43.000₫</strong>
+            </div>
+            <p class="cprice">Giá CK: 42.000₫</p>
+            <p class="cprice">Giá Bán Lẻ: 86.000₫</p>
+
+            <div class="promotion clr">
+                <p>Cắm Nghe Luôn</p>
+            </div>
+        </a>
+        <div class="form_add form_add6955">
+            <div class="button-container">
+                <button onclick="qtyMinus(this)" class="qty_button cart-qty-minus" type="button" value="-">-</button>
+        <input type="text" min="1" max="10" class="qty qty6955" step="1" name="goods_number" value="1">
+        <button onclick="qtyPlus(this)" class="qty_button cart-qty-plus" type="button" value="+">+</button>
+        </div>
+        <button class="quick_add" type="button" onclick="quickBuy(6955)">
+                THÊM
+        </div>
+    </li>
+    <li data-id="6956">
+        <a href="ho-tro-quay-chup/gay-chup-anh-hoco-k25" title="Gậy Chụp Ảnh Hoco K25">
+            <picture>
+                <source width="150" height="150" srcset="https://phukiengiaxuong.com.vn/cdn/images/202408/thumb_img/gay-chup-anh-hoco-k25-thumb-1746172670.webp" type="image/webp" />
+                <img width="150" height="150" class="photo" src="https://phukiengiaxuong.com.vn/cdn/images/202408/thumb_img/gay-chup-anh-hoco-k25-thumb-1746172670.jpg" alt="Gậy Chụp Ảnh Hoco K25" />
+            </picture>
+            <span class="icon_hot"></span>
+            <h3>Gậy Chụp Ảnh Hoco K25</h3>
+            <div class="price">
+                Giá Sỉ
+                <strong>226.000₫</strong>
+            </div>
+            <p class="cprice">Giá CK: 222.000₫</p>
+            <p class="cprice">Giá Bán Lẻ: 452.000₫</p>
+
+            <div class="promotion clr">
+                <p>Cao 1,5m</p>
+            </div>
+        </a>
+        <div class="form_add form_add6956">
+            <div class="button-container">
+                <button onclick="qtyMinus(this)" class="qty_button cart-qty-minus" type="button" value="-">-</button>
+        <input type="text" min="1" max="10" class="qty qty6956" step="1" name="goods_number" value="1">
+        <button onclick="qtyPlus(this)" class="qty_button cart-qty-plus" type="button" value="+">+</button>
+        </div>
+        <button class="quick_add" type="button" onclick="quickBuy(6956)">
+                THÊM
+        </div>
+    </li>
+    <li data-id="6958">
+        <a href="si-tai-nghe/tai-nghe-bluetooth-air-max" title="Tai Nghe Bluetooth Air Max">
+            <picture>
+                <source width="150" height="150" srcset="https://phukiengiaxuong.com.vn/cdn/images/202408/thumb_img/tai-nghe-bluetooth-air-max-thumb-1746176105.webp" type="image/webp" />
+                <img width="150" height="150" class="photo" src="https://phukiengiaxuong.com.vn/cdn/images/202408/thumb_img/tai-nghe-bluetooth-air-max-thumb-1746176105.jpg" alt="Tai Nghe Bluetooth Air Max" />
+            </picture>
+            <span class="icon_hot"></span>
+            <h3>Tai Nghe Bluetooth Air Max</h3>
+            <div class="price">
+                Giá Sỉ
+                <strong>126.000₫</strong>
+            </div>
+            <p class="cprice">Giá CK: 124.000₫</p>
+            <p class="cprice">Giá Bán Lẻ: 252.000₫</p>
+
+            <div class="promotion clr">
+                <p>3-4h</p>
+            </div>
+        </a>
+        <div class="form_add form_add6958">
+            <div class="button-container">
+                <button onclick="qtyMinus(this)" class="qty_button cart-qty-minus" type="button" value="-">-</button>
+        <input type="text" min="1" max="10" class="qty qty6958" step="1" name="goods_number" value="1">
+        <button onclick="qtyPlus(this)" class="qty_button cart-qty-plus" type="button" value="+">+</button>
+        </div>
+        <button class="quick_add" type="button" onclick="quickBuy(6958)">
+                THÊM
+        </div>
+    </li>
+    <li data-id="6946">
+        <a href="si-tai-nghe/tai-nghe-bluetooth-hoco-eq24" title="Tai Nghe Bluetooth Hoco EQ24">
+            <picture>
+                <source width="150" height="150" srcset="https://phukiengiaxuong.com.vn/cdn/images/202408/thumb_img/tai-nghe-bluetooth-hoco-eq24-thumb-1744442283.webp" type="image/webp" />
+                <img width="150" height="150" class="photo" src="https://phukiengiaxuong.com.vn/cdn/images/202408/thumb_img/tai-nghe-bluetooth-hoco-eq24-thumb-1744442283.jpg" alt="Tai Nghe Bluetooth Hoco EQ24" />
+            </picture>
+            <span class="icon_hot"></span>
+            <h3>Tai Nghe Bluetooth Hoco EQ24</h3>
+            <div class="price">
+                Giá Sỉ
+                <strong>122.000₫</strong>
+            </div>
+            <p class="cprice">Giá CK: 120.000₫</p>
+            <p class="cprice">Giá Bán Lẻ: 244.000₫</p>
+
+            <div class="promotion clr">
+                <p>Nghe Nhạc 7h</p>
+            </div>
+        </a>
+        <div class="form_add form_add6946">
+            <div class="button-container">
+                <button onclick="qtyMinus(this)" class="qty_button cart-qty-minus" type="button" value="-">-</button>
+        <input type="text" min="1" max="10" class="qty qty6946" step="1" name="goods_number" value="1">
+        <button onclick="qtyPlus(this)" class="qty_button cart-qty-plus" type="button" value="+">+</button>
+        </div>
+        <button class="quick_add" type="button" onclick="quickBuy(6946)">
+                THÊM
+        </div>
+    </li>
+</ul>
+    <script>
+        function qtyMinus(button) {
+            let input = button.nextElementSibling;
+            let value = parseInt(input.value);
+            if (value > 1) {
+                input.value = value - 1;
+            }
+        }
+
+        function qtyPlus(button) {
+            let input = button.previousElementSibling;
+            let value = parseInt(input.value);
+            input.value = value + 1;
+        }
+
+        function quickBuy(productId) {
+            const input = document.querySelector(`.qty${productId}`);
+            const quantity = parseInt(input.value);
+            alert(`Đã thêm ${quantity} sản phẩm vào giỏ hàng`);
+        }
+
+    </script>
+    </div>
+    <button class="buy-btn" onclick="openConfirm(this)">MUA</button>
+        <div id="confirmModal" style="display:none;" class="modal">
+            <div class="modal-content">
+                <p>Bạn đã chọn <span id="selectedQty">1</span> sản phẩm.</p>
+                <button onclick="showForm()">XÁC NHẬN</button>
+            </div>
+        </div>
+
+        <div id="formModal" style="display:none;" class="modal">
+            <div class="modal-content">
+                <h3>Thông tin cá nhân</h3>
+                <input type="text" placeholder="Họ tên"><br>
+                <input type="text" placeholder="Số điện thoại"><br>
+                <input type="text" placeholder="Địa chỉ"><br>
+                <button onclick="submitForm()">Gửi</button>
+            </div>
+        </div>
+        <script>
+            function qtyPlus(btn) {
+                let input = btn.previousElementSibling;
+                let value = parseInt(input.value);
+                if (value < 10) input.value = value + 1;
+            }
+
+            function qtyMinus(btn) {
+                let input = btn.nextElementSibling;
+                let value = parseInt(input.value);
+                if (value > 1) input.value = value - 1;
+            }
+
+            function openConfirm(btn) {
+                let qty = btn.previousElementSibling.querySelector(".qty").value;
+                document.getElementById("selectedQty").innerText = qty;
+                document.getElementById("confirmModal").style.display = "block";
+            }
+
+            function showForm() {
+                document.getElementById("confirmModal").style.display = "none";
+                document.getElementById("formModal").style.display = "block";
+            }
+
+            function submitForm() {
+                alert("Thông tin đã được gửi!");
+                document.getElementById("formModal").style.display = "none";
+            }
+        </script>
 </body>
 
 </html>
